@@ -4,12 +4,11 @@ import Foundation
 import UIKit
 import Combine
 
-final class PopularMoviesViewController: UIViewController, SceneController {
+final class FavoriteMoviesViewController: UIViewController, SceneController {
 	
 	// MARK: - Models
-	
-	typealias State = PopularMoviesScene.State
-	typealias Action = PopularMoviesScene.Action
+	typealias State = FavoriteMoviesScene.State
+	typealias Action = FavoriteMoviesScene.Action
 	
 	private typealias DataSource = UICollectionViewDiffableDataSource<Section, SimpleMovieViewModel>
 	private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, SimpleMovieViewModel>
@@ -21,7 +20,7 @@ final class PopularMoviesViewController: UIViewController, SceneController {
 	// MARK: - Subviews
 	
 	private lazy var collectionView: UICollectionView = {
-		let collectionViewLayout = MovieCollectionViewStyle.grid()
+		let collectionViewLayout = makeCollectionViewLayout()
 		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
 		collectionView.translatesAutoresizingMaskIntoConstraints = false
 		return collectionView
@@ -41,8 +40,8 @@ final class PopularMoviesViewController: UIViewController, SceneController {
 		self.viewModel = viewModel
 		super.init(nibName: nil, bundle: nil)
 		
-		title = "Popular Movies"
-		tabBarItem = .init(title: "Popular", image: .init(sfSymbol: "p.square", scale: .large), selectedImage: .init(sfSymbol: "p.square.fill", scale: .large))
+		title = "Favorite Movies"
+		tabBarItem = .init(title: "Favorites", image: .init(sfSymbol: "heart", scale: .large), selectedImage: .init(sfSymbol: "heart.fill", scale: .large))
 		tabBarItem.tag = 0
 	}
 	
@@ -56,13 +55,11 @@ final class PopularMoviesViewController: UIViewController, SceneController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		view.backgroundColor = .systemGroupedBackground
+		view.backgroundColor = .systemBackground
 		navigationItem.largeTitleDisplayMode = .always
 		
 		setupViews()
 		setupBindings()
-		
-		viewModel.handle(action: .fetchMovies)
 	}
 	
 	// MARK: - Setup Views
@@ -94,23 +91,34 @@ final class PopularMoviesViewController: UIViewController, SceneController {
 	}
 	
 	private func setupViewModelBindings() {
-		viewModel
-			.statePublisher
-			.map(\.fetchMoviesStatus)
-			.removeDuplicates()
-			.sink { [weak self] status in
-				guard let self else { return }
-				self.handleFetchMoviesRequestStatus(status: status)
-			}
-			.store(in: &cancellables)
+		
 	}
 	
 	// MARK: - Helper Methods
 	
-	private func cellProvider(collectionView: UICollectionView, indexPath: IndexPath, item: MovieViewModel) -> UICollectionViewCell? {
+	private func cellProvider(collectionView: UICollectionView, indexPath: IndexPath, item: SimpleMovieViewModel) -> UICollectionViewCell? {
 		let cell = collectionView.dequeueReusableCell(ofType: UICollectionViewCell.self, for: indexPath)
-		cell.contentConfiguration = MovieGridStyleContentView.Configuration(movieViewModel: item)
+		cell.contentConfiguration = MovieListStyleContentView.Configuration(movieViewModel: item)
 		return cell
+	}
+	
+	private func makeCollectionViewLayout() -> UICollectionViewLayout {
+		let layoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+		let layoutItem = NSCollectionLayoutItem(layoutSize: layoutSize)
+		
+		let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(200))
+		let group: NSCollectionLayoutGroup
+		if #available(iOS 16, *) {
+			group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: layoutItem, count: 1)
+		} else {
+			group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: layoutItem, count: 1)
+		}
+		group.contentInsets = .init(top: 0, leading: 0, bottom: 10, trailing: 0)
+		
+		let section = NSCollectionLayoutSection(group: group)
+		let layout = UICollectionViewCompositionalLayout(section: section)
+		
+		return layout
 	}
 	
 	private func addSnapshot(with items: [SimpleMovieViewModel]) {
@@ -120,29 +128,10 @@ final class PopularMoviesViewController: UIViewController, SceneController {
 		dataSource.apply(snapshot)
 	}
 	
-	private func handleFetchMoviesRequestStatus(status: RequestStatus<PaginationResponse<Movie>>) {
-		switch status {
-		case .idle:
-			print(#function, status.debugDescription)
-			
-		case .loading:
-			print(#function, status.debugDescription)
-			
-		case .failed(let error):
-			print(#function, "Error:", error.localizedDescription)
-			
-		case .loaded(let model):
-			print(#function, "Items:", model.results.count)
-			addSnapshot(with: model.results.map({ SimpleMovieViewModel.init(movie: $0, isFavorite: false) }))
-		}
-	}
-	
 }
 
 // MARK: - UICollectionViewDelegate
 
-extension PopularMoviesViewController: UICollectionViewDelegate {
-	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		print(#function, "IndexPath:", indexPath)
-	}
+extension FavoriteMoviesViewController: UICollectionViewDelegate {
+	
 }

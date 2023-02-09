@@ -14,13 +14,13 @@ enum TheMovieDBServiceEndpoint: ServiceEndpoint {
 	var path: String {
 		switch self {
 		case .topRated(let page):
-			return "/top_rated".appendingPage(page)
+			return "./top_rated".appendingPage(page)
 		case .mostPopular(let page):
-			return "/popular".appendingPage(page)
+			return "./popular".appendingPage(page)
 		case .movieDetail(let movieID):
-			return "/\(movieID)"
+			return "./\(movieID)"
 		case .movieReviews(let movieID, let page):
-			return "/\(movieID)/reviews".appendingPage(page)
+			return "./\(movieID)/reviews".appendingPage(page)
 		}
 	}
 	

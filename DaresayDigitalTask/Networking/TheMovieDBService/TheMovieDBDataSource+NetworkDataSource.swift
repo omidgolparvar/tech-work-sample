@@ -33,7 +33,7 @@ class TheMovieDBNetworkDataSource: TheMovieDBDataSource {
 	
 	func getPopularMovies(atPage page: TheMovieDBServicePage) -> AnyPublisher<PaginationResponse<Movie>, Error> {
 		let request = service.urlRequest(for: .mostPopular(page: page))
-		return manager.responsePublisher(for: request, ofType: PaginationResponse<Movie>.self)
+		return manager.responsePublisher(for: request, ofType: PaginationResponse<Movie>.self, decoder: topRatedMoviesJSONDecoder)
 	}
 	
 	func getTopRatedMovies(atPage page: TheMovieDBServicePage) -> AnyPublisher<PaginationResponse<Movie>, Error> {

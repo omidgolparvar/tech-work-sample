@@ -46,3 +46,21 @@ extension RequestStatus {
 	}
 	
 }
+
+extension RequestStatus: CustomDebugStringConvertible {
+	
+	var debugDescription: String {
+		let type = String(describing: type(of: self))
+		switch self {
+		case .idle:
+			return "\(type).idle"
+		case .loading:
+			return "\(type).loading"
+		case .failed(let error):
+			return "\(type).failed(\(error.localizedDescription))"
+		case .loaded(let model):
+			return "\(type).loaded(\(String(describing: model)))"
+		}
+	}
+	
+}

@@ -25,9 +25,22 @@ final class MainTabBarController: UITabBarController, SceneController {
 	
 	func configureViewControllers(with configuration: MainTabBarScene.BuildConfiguration) {
 		let popularMoviesController = PopularMoviesScene.build(with: .init(dataSource: configuration.popularMoviesDataSource))
-		let topRatedMoviesController = TopRatedMoviesScene.build(with: .init(dataSource: configuration.topRatedMoviesDataSource))
+		let popularMoviesNavigationController = UINavigationController(rootViewController: popularMoviesController)
+		popularMoviesNavigationController.navigationBar.prefersLargeTitles = true
 		
-		viewControllers = [popularMoviesController, topRatedMoviesController]
+		let topRatedMoviesController = TopRatedMoviesScene.build(with: .init(dataSource: configuration.topRatedMoviesDataSource))
+		let topRatedMoviesNavigationController = UINavigationController(rootViewController: topRatedMoviesController)
+		topRatedMoviesNavigationController.navigationBar.prefersLargeTitles = true
+		
+		let favoriteMoviesController = FavoriteMoviesScene.build(with: .init())
+		let favoriteMoviesNavigationController = UINavigationController(rootViewController: favoriteMoviesController)
+		favoriteMoviesNavigationController.navigationBar.prefersLargeTitles = true
+		
+		viewControllers = [
+			popularMoviesNavigationController,
+			topRatedMoviesNavigationController,
+			favoriteMoviesNavigationController
+		]
 	}
 	
 	func setupViews() {

@@ -15,17 +15,14 @@ extension NetworkManager {
 
 class HTTPNetworkManager: NetworkManager {
 	private let session: URLSession
+	var isLogginEnabled: Bool = false
 	
 	init(session: URLSession = .shared) {
 		self.session = session
 	}
 	
-	func responsePublisher<R: Decodable>(
-		for request: URLRequest,
-		ofType ResponseType: R.Type,
-		decoder: JSONDecoder = JSONDecoder()
-	) -> AnyPublisher<R, Error> {
-		return session
+	func responsePublisher<R: Decodable>(for request: URLRequest, ofType ResponseType: R.Type, decoder: JSONDecoder = JSONDecoder()) -> AnyPublisher<R, Error> {
+		let publisher = session
 			.dataTaskPublisher(for: request)
 			.tryMap { data, response in
 				guard let response = response as? HTTPURLResponse else { throw NSError() }
@@ -38,5 +35,9 @@ class HTTPNetworkManager: NetworkManager {
 			}
 			.receive(on: DispatchQueue.main)
 			.eraseToAnyPublisher()
+		
+		return isLogginEnabled
+		? publisher.print().eraseToAnyPublisher()
+		: publisher
 	}
 }

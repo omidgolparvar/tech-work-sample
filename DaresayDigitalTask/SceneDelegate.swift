@@ -8,12 +8,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
 	func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-		guard let _ = (scene as? UIWindowScene) else { return }
+		guard let windowScene = (scene as? UIWindowScene) else { return }
 		
+		setupAppWindow(in: windowScene)
 	}
 	
-	private func configureRootViewController(in window: UIWindow) {
+	private func setupAppWindow(in windowScene: UIWindowScene) {
+		let manager = HTTPNetworkManager()
+//		manager.isLogginEnabled = true
 		
+		let tmdbDataSource = TheMovieDBNetworkDataSource(service: .default(), manager: manager)
+		let controller = MainTabBarScene.build(with: .init(
+			popularMoviesDataSource: tmdbDataSource,
+			topRatedMoviesDataSource: tmdbDataSource
+		))
+		
+		window = UIWindow(windowScene: windowScene)
+		window?.rootViewController = controller
+		window?.makeKeyAndVisible()
 	}
 
 }
