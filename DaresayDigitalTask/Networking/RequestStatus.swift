@@ -9,6 +9,25 @@ enum RequestStatus<Model> {
 	case loaded(Model)
 }
 
+extension RequestStatus: Equatable where Model: Equatable {
+	
+	static func == (lhs: RequestStatus<Model>, rhs: RequestStatus<Model>) -> Bool {
+		switch (lhs, rhs) {
+		case (.idle, .idle):
+			return true
+		case (.loading, .loading):
+			return true
+		case (.loaded(let model0), .loaded(let model1)):
+			return model0 == model1
+		case (.failed, .failed):
+			return false
+		default:
+			return false
+		}
+	}
+	
+}
+
 extension RequestStatus {
 	
 	var isLoading: Bool {

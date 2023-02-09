@@ -31,14 +31,14 @@ class TheMovieDBNetworkDataSource: TheMovieDBDataSource {
 		self.manager = manager
 	}
 	
-	func getPopularMovies(atPage page: TheMovieDBServicePage) -> AnyPublisher<List<Movie>, Error> {
+	func getPopularMovies(atPage page: TheMovieDBServicePage) -> AnyPublisher<PaginationResponse<Movie>, Error> {
 		let request = service.urlRequest(for: .mostPopular(page: page))
-		return manager.responsePublisher(for: request, ofType: List<Movie>.self)
+		return manager.responsePublisher(for: request, ofType: PaginationResponse<Movie>.self)
 	}
 	
-	func getTopRatedMovies(atPage page: TheMovieDBServicePage) -> AnyPublisher<List<Movie>, Error> {
+	func getTopRatedMovies(atPage page: TheMovieDBServicePage) -> AnyPublisher<PaginationResponse<Movie>, Error> {
 		let request = service.urlRequest(for: .topRated(page: page))
-		return manager.responsePublisher(for: request, ofType: List<Movie>.self, decoder: topRatedMoviesJSONDecoder)
+		return manager.responsePublisher(for: request, ofType: PaginationResponse<Movie>.self, decoder: topRatedMoviesJSONDecoder)
 	}
 	
 	func getMovieDetail(for movie: Movie) -> AnyPublisher<Movie, Error> {
@@ -46,9 +46,9 @@ class TheMovieDBNetworkDataSource: TheMovieDBDataSource {
 		return manager.responsePublisher(for: request, ofType: Movie.self)
 	}
 	
-	func getMovieReviews(for movie: Movie, atPage page: TheMovieDBServicePage) -> AnyPublisher<List<MovieReview>, Error> {
+	func getMovieReviews(for movie: Movie, atPage page: TheMovieDBServicePage) -> AnyPublisher<PaginationResponse<MovieReview>, Error> {
 		let request = service.urlRequest(for: .movieReviews(movieID: movie.id, page: page))
-		return manager.responsePublisher(for: request, ofType: List<MovieReview>.self, decoder: movieReviewsJSONDecoder)
+		return manager.responsePublisher(for: request, ofType: PaginationResponse<MovieReview>.self, decoder: movieReviewsJSONDecoder)
 	}
 	
 }

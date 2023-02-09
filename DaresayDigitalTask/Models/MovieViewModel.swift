@@ -4,10 +4,13 @@ import Foundation
 
 class MovieViewModel {
 	let movie: Movie
+	let isFavorite: Bool
 	
-	init(movie: Movie) {
+	init(movie: Movie, isFavorite: Bool) {
 		self.movie = movie
+		self.isFavorite = isFavorite
 	}
+	
 }
 
 extension MovieViewModel: Equatable {

@@ -3,19 +3,19 @@
 import Foundation
 import Combine
 
-class PopularMoviesViewModel: ViewModel {
-	typealias State = PopularMoviesScene.State
-	typealias Action = PopularMoviesScene.Action
+class TopRatedMoviesViewModel: ViewModel {
+	typealias State = TopRatedMoviesScene.State
+	typealias Action = TopRatedMoviesScene.Action
 	
 	private var cancellables = Set<AnyCancellable>()
-	private let dataSource: TheMovieDBPopularMoviesDataSource
+	private let dataSource: TheMovieDBTopRatedMoviesDataSource
 	
 	@Published private var stateObject = State()
 	
 	var state: State { stateObject }
 	var statePublisher: AnyPublisher<State, Never> { $stateObject.eraseToAnyPublisher() }
 	
-	init(dataSource: TheMovieDBPopularMoviesDataSource) {
+	init(dataSource: TheMovieDBTopRatedMoviesDataSource) {
 		self.dataSource = dataSource
 	}
 	
@@ -32,7 +32,7 @@ class PopularMoviesViewModel: ViewModel {
 		stateObject.fetchMoviesStatus = .loading
 		
 		dataSource
-			.getPopularMovies(atPage: 0)
+			.getTopRatedMovies(atPage: 0)
 			.sinkAsResult { [weak self] result in
 				guard let self else { return }
 				
