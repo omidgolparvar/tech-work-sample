@@ -61,6 +61,7 @@
 		1AEF4D1329944659008962AB /* MainTabBarScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEF4D1229944659008962AB /* MainTabBarScene.swift */; };
 		1AEF4D152994466C008962AB /* MainTabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEF4D142994466C008962AB /* MainTabBarViewModel.swift */; };
 		1AEF4D2029964297008962AB /* FavoriteMoviesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEF4D1F29964297008962AB /* FavoriteMoviesManager.swift */; };
+		1AEF4D22299673D8008962AB /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEF4D21299673D8008962AB /* MessageView.swift */; };
 		2E3388D02994E9DA00C50BF9 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3388CF2994E9DA00C50BF9 /* UIImage+Extensions.swift */; };
 		2E3388D32994F45500C50BF9 /* FavoriteMoviesScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3388D22994F45500C50BF9 /* FavoriteMoviesScene.swift */; };
 		2E3388D52994F48B00C50BF9 /* FavoriteMoviesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3388D42994F48B00C50BF9 /* FavoriteMoviesViewController.swift */; };
@@ -146,6 +147,7 @@
 		1AEF4D1229944659008962AB /* MainTabBarScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarScene.swift; sourceTree = "<group>"; };
 		1AEF4D142994466C008962AB /* MainTabBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewModel.swift; sourceTree = "<group>"; };
 		1AEF4D1F29964297008962AB /* FavoriteMoviesManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteMoviesManager.swift; sourceTree = "<group>"; };
+		1AEF4D21299673D8008962AB /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		2E3388CF2994E9DA00C50BF9 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		2E3388D22994F45500C50BF9 /* FavoriteMoviesScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteMoviesScene.swift; sourceTree = "<group>"; };
 		2E3388D42994F48B00C50BF9 /* FavoriteMoviesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteMoviesViewController.swift; sourceTree = "<group>"; };
@@ -222,7 +224,7 @@
 				1A713E18298EE84200B26DC2 /* Assets.xcassets */,
 				1A713E1A298EE84200B26DC2 /* LaunchScreen.storyboard */,
 				1A713E1D298EE84200B26DC2 /* Info.plist */,
-				1AEF4D162996351C008962AB /* FavoriteMoviesManager.swift */,
+				1AEF4D21299673D8008962AB /* MessageView.swift */,
 			);
 			path = DaresayDigitalTask;
 			sourceTree = "<group>";
@@ -515,6 +517,7 @@
 				1A713E5D298F0B6B00B26DC2 /* TheMovieDBDataSource+NetworkDataSource.swift in Sources */,
 				1A713E7B299050E500B26DC2 /* MovieListStyleContentView.swift in Sources */,
 				1AEF4D0F29944572008962AB /* TopRatedMoviesScene.swift in Sources */,
+				1AEF4D22299673D8008962AB /* MessageView.swift in Sources */,
 				1A713E6C298F1D8D00B26DC2 /* Storage+UserDefaultsStorage.swift in Sources */,
 				1AEF4D112994459D008962AB /* TopRatedMoviesViewModel.swift in Sources */,
 				1A713E48298EE9EA00B26DC2 /* HTTPMethod.swift in Sources */,
@@ -527,7 +530,6 @@
 				1A713E972992F5A200B26DC2 /* UICollectionView+Extensions.swift in Sources */,
 				1A713E932991ACCA00B26DC2 /* Publisher+Extensions.swift in Sources */,
 				1A713E4E298EFCB300B26DC2 /* NetworkManager.swift in Sources */,
-				1AEF4D172996351C008962AB /* FavoriteMoviesManager.swift in Sources */,
 				1A713E63298F104300B26DC2 /* PopularMoviesViewController.swift in Sources */,
 				1AEF4D0D29943FF4008962AB /* TopRatedMoviesViewController.swift in Sources */,
 				1AEF4D092994380C008962AB /* PopularMoviesScene.swift in Sources */,

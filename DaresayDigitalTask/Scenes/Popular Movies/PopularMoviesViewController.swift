@@ -26,6 +26,7 @@ final class PopularMoviesViewController: UIViewController, SceneController {
 		collectionView.translatesAutoresizingMaskIntoConstraints = false
 		return collectionView
 	}()
+	private var messageView: MessageView?
 	
 	// MARK: - Properties
 	
@@ -130,11 +131,30 @@ final class PopularMoviesViewController: UIViewController, SceneController {
 			
 		case .failed(let error):
 			print(#function, "Error:", error.localizedDescription)
+			addErrorMessageView(for: error)
 			
 		case .loaded(let model):
 			print(#function, "Items:", model.results.count)
 			addSnapshot(with: model.results.map({ SimpleMovieViewModel.init(movie: $0, isFavorite: false) }))
 		}
+	}
+	
+	private func addErrorMessageView(for error: Error) {
+		messageView?.removeFromSuperview()
+		messageView = MessageView(contentConfiguration: .presetError(error, action: {
+			print(#function)
+		}))
+		messageView!.translatesAutoresizingMaskIntoConstraints = false
+		
+		view.addSubview(messageView!)
+		view.bringSubviewToFront(messageView!)
+		
+		NSLayoutConstraint.activate([
+			messageView!.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+			messageView!.topAnchor.constraint(equalTo: view.topAnchor),
+			messageView!.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+			messageView!.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+		])
 	}
 	
 }

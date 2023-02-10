@@ -32,7 +32,7 @@ final class MainTabBarController: UITabBarController, SceneController {
 		let topRatedMoviesNavigationController = UINavigationController(rootViewController: topRatedMoviesController)
 		topRatedMoviesNavigationController.navigationBar.prefersLargeTitles = true
 		
-		let favoriteMoviesController = FavoriteMoviesScene.build(with: .init())
+		let favoriteMoviesController = FavoriteMoviesScene.build(with: .init(manager: configuration.favoriteMoviesManager))
 		let favoriteMoviesNavigationController = UINavigationController(rootViewController: favoriteMoviesController)
 		favoriteMoviesNavigationController.navigationBar.prefersLargeTitles = true
 		

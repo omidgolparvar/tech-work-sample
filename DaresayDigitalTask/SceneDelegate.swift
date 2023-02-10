@@ -18,9 +18,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //		manager.isLogginEnabled = true
 		
 		let tmdbDataSource = TheMovieDBNetworkDataSource(service: .default(), manager: manager)
+		let storage = InMemoryStorage<[Movie]>(initialObject: [])
 		let controller = MainTabBarScene.build(with: .init(
 			popularMoviesDataSource: tmdbDataSource,
-			topRatedMoviesDataSource: tmdbDataSource
+			topRatedMoviesDataSource: tmdbDataSource,
+			favoriteMoviesManager: FavoriteMoviesManager(storage: storage)
 		))
 		
 		window = UIWindow(windowScene: windowScene)

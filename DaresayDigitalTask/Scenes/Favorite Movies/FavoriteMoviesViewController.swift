@@ -20,11 +20,12 @@ final class FavoriteMoviesViewController: UIViewController, SceneController {
 	// MARK: - Subviews
 	
 	private lazy var collectionView: UICollectionView = {
-		let collectionViewLayout = makeCollectionViewLayout()
+		let collectionViewLayout = MovieCollectionViewStyle.list()
 		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
 		collectionView.translatesAutoresizingMaskIntoConstraints = false
 		return collectionView
 	}()
+	private var messageView: MessageView?
 	
 	// MARK: - Properties
 	
@@ -42,7 +43,7 @@ final class FavoriteMoviesViewController: UIViewController, SceneController {
 		
 		title = "Favorite Movies"
 		tabBarItem = .init(title: "Favorites", image: .init(sfSymbol: "heart", scale: .large), selectedImage: .init(sfSymbol: "heart.fill", scale: .large))
-		tabBarItem.tag = 0
+		tabBarItem.tag = 2
 	}
 	
 	@available(*, unavailable)
@@ -91,7 +92,15 @@ final class FavoriteMoviesViewController: UIViewController, SceneController {
 	}
 	
 	private func setupViewModelBindings() {
-		
+		viewModel
+			.statePublisher
+			.map(\.movies)
+			.removeDuplicates()
+			.sink { [weak self] movies in
+				guard let self else { return }
+				self.populateList(with: movies)
+			}
+			.store(in: &cancellables)
 	}
 	
 	// MARK: - Helper Methods
@@ -102,26 +111,33 @@ final class FavoriteMoviesViewController: UIViewController, SceneController {
 		return cell
 	}
 	
-	private func makeCollectionViewLayout() -> UICollectionViewLayout {
-		let layoutSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
-		let layoutItem = NSCollectionLayoutItem(layoutSize: layoutSize)
+	private func populateList(with movies: [SimpleMovieViewModel]) {
+		addMoviesToList(with: movies)
 		
-		let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(200))
-		let group: NSCollectionLayoutGroup
-		if #available(iOS 16, *) {
-			group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: layoutItem, count: 1)
+		if movies.isEmpty {
+			let messageViewConfiguration = MessageView
+				.Configuration
+				.init(emoji: "❤️", title: "No Item", message: "Favorite list is empty", buttonAction: nil)
+			let messageView = MessageView(contentConfiguration: messageViewConfiguration)
+			messageView.translatesAutoresizingMaskIntoConstraints = false
+			
+			view.addSubview(messageView)
+			view.bringSubviewToFront(messageView)
+			
+			NSLayoutConstraint.activate([
+				messageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+				messageView.topAnchor.constraint(equalTo: view.topAnchor),
+				messageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+				messageView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+			])
+			
+			self.messageView = messageView
 		} else {
-			group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: layoutItem, count: 1)
+			messageView?.removeFromSuperview()
 		}
-		group.contentInsets = .init(top: 0, leading: 0, bottom: 10, trailing: 0)
-		
-		let section = NSCollectionLayoutSection(group: group)
-		let layout = UICollectionViewCompositionalLayout(section: section)
-		
-		return layout
 	}
 	
-	private func addSnapshot(with items: [SimpleMovieViewModel]) {
+	private func addMoviesToList(with items: [SimpleMovieViewModel]) {
 		var snapshot = Snapshot()
 		snapshot.appendSections([.main])
 		snapshot.appendItems(items, toSection: .main)

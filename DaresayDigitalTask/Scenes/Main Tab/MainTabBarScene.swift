@@ -8,6 +8,7 @@ enum MainTabBarScene {
 	struct BuildConfiguration {
 		let popularMoviesDataSource: TheMovieDBPopularMoviesDataSource
 		let topRatedMoviesDataSource: TheMovieDBTopRatedMoviesDataSource
+		let favoriteMoviesManager: FavoriteMoviesManagerProtocol
 	}
 	
 	struct State: StateProtocol {
