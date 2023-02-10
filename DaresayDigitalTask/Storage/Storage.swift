@@ -2,7 +2,7 @@
 
 import Foundation
 
-protocol Storage {
+protocol Storage<Object> {
 	associatedtype Object
 	
 	func store(object: Object) -> Result<Void, Error>

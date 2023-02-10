@@ -222,6 +222,7 @@
 				1A713E18298EE84200B26DC2 /* Assets.xcassets */,
 				1A713E1A298EE84200B26DC2 /* LaunchScreen.storyboard */,
 				1A713E1D298EE84200B26DC2 /* Info.plist */,
+				1AEF4D162996351C008962AB /* FavoriteMoviesManager.swift */,
 			);
 			path = DaresayDigitalTask;
 			sourceTree = "<group>";
@@ -526,6 +527,7 @@
 				1A713E972992F5A200B26DC2 /* UICollectionView+Extensions.swift in Sources */,
 				1A713E932991ACCA00B26DC2 /* Publisher+Extensions.swift in Sources */,
 				1A713E4E298EFCB300B26DC2 /* NetworkManager.swift in Sources */,
+				1AEF4D172996351C008962AB /* FavoriteMoviesManager.swift in Sources */,
 				1A713E63298F104300B26DC2 /* PopularMoviesViewController.swift in Sources */,
 				1AEF4D0D29943FF4008962AB /* TopRatedMoviesViewController.swift in Sources */,
 				1AEF4D092994380C008962AB /* PopularMoviesScene.swift in Sources */,
